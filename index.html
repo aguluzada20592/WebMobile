@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Venue Ticketing System</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <header>
+    <h1>Interactive Venue Ticketing System</h1>
+    <p>Select your perfect seat and book your tickets!</p>
+  </header>
+
+  <main>
+    <section class="venue-section">
+      <h2>Venue Seating Map</h2>
+
+      <div class="navigation-controls">
+        <button id="zoom-in">Zoom In +</button>
+        <button id="zoom-out">Zoom Out -</button>
+        <button id="move-up">Up ↑</button>
+        <button id="move-down">Down ↓</button>
+        <button id="move-left">Left ←</button>
+        <button id="move-right">Right →</button>
+        <button id="reset-view">Reset / Center</button>
+      </div>
+
+      <div class="venue-viewport">
+        <div id="venue-map">
+          <div class="stage">STAGE</div>
+          <div id="seating-container"></div>
+        </div>
+      </div>
+
+      <div class="seat-legend">
+        <span>Available</span>
+        <span>Selected for Inspection</span>
+        <span>In Cart</span>
+        <span>Unavailable</span>
+      </div>
+    </section>
+
+    <aside class="booking-section">
+      <section class="seat-details">
+        <h2>Seat Details</h2>
+        <p id="seat-info">Click a seat to view its details.</p>
+        <button id="add-to-cart" disabled>ADD TO CART</button>
+      </section>
+
+      <section class="cart-section">
+        <h2>Your Cart</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: $<span id="cart-total">0.00</span></p>
+      </section>
+    </aside>
+  </main>
+
+  <footer>
+    <p>Interactive Venue Ticketing System | WM1 Project</p>
+  </footer>
+
+</body>
+</html>
