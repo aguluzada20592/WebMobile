@@ -184,3 +184,9 @@ footer {
     flex: 1 1 100px;
   }
 }
+.seat.inspected {
+  background-color: #e6a23c;
+  color: #18243d;
+  outline: 3px solid #b7791f;
+  outline-offset: 2px;
+}
