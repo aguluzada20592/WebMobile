@@ -262,3 +262,13 @@ footer {
 .legend-color.unavailable {
   background-color: #a9b0bd;
 }
+.remove-ticket {
+  padding: 6px 10px;
+  margin-left: 8px;
+  background-color: #c0392b;
+  font-size: 12px;
+}
+
+.remove-ticket:hover {
+  background-color: #962d22;
+}
