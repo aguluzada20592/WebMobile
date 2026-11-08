@@ -360,3 +360,29 @@ document.getElementById("reset-view").addEventListener("click", () => {
 });
 
 updateMapTransform();
+function showFullVenue() {
+  moveX = 0;
+  moveY = 0;
+  zoomLevel = 1;
+  updateMapTransform();
+
+  const availableWidth = venueViewport.clientWidth - 24;
+  const availableHeight = venueViewport.clientHeight - 24;
+
+  const mapWidth = venueMap.scrollWidth;
+  const mapHeight = venueMap.scrollHeight;
+
+  if (!mapWidth || !mapHeight) return;
+
+  zoomLevel = Math.min(
+    1,
+    availableWidth / mapWidth,
+    availableHeight / mapHeight
+  );
+
+  updateMapTransform();
+}
+
+document
+  .getElementById("overview-view")
+  .addEventListener("click", showFullVenue);
