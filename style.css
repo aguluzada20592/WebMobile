@@ -234,3 +234,31 @@ footer {
   color: white;
   cursor: not-allowed;
 }
+.seat-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+.legend-color.available {
+  background-color: #314c89;
+}
+
+.legend-color.inspected {
+  background-color: #e6a23c;
+}
+
+.legend-color.in-cart {
+  background-color: #16835a;
+}
+
+.legend-color.unavailable {
+  background-color: #a9b0bd;
+}
