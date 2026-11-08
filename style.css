@@ -190,3 +190,47 @@ footer {
   outline: 3px solid #b7791f;
   outline-offset: 2px;
 }
+.venue-zone h3 {
+  margin-bottom: 20px;
+}
+
+.seat-row {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.seat {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 6px;
+  background-color: #314c89;
+  color: white;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.seat.available:hover {
+  background-color: #21396e;
+}
+
+.seat.inspected {
+  background-color: #e6a23c;
+  color: #18243d;
+  outline: 3px solid #b7791f;
+  outline-offset: 1px;
+}
+
+.seat.in-cart {
+  background-color: #16835a;
+  color: white;
+}
+
+.seat.unavailable,
+.seat.unavailable:disabled {
+  background-color: #a9b0bd;
+  color: white;
+  cursor: not-allowed;
+}
