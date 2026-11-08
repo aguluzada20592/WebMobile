@@ -80,22 +80,28 @@ button:disabled {
   cursor: not-allowed;
 }
 
+
 .venue-viewport {
-  height: 460px;
+  height: 560px;
   overflow: hidden;
+  position: relative;
   background: #edf1f8;
   border: 2px solid #d5dce9;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  touch-action: none;
 }
+
 
 #venue-map {
   width: 100%;
   min-width: 500px;
   padding: 24px;
   transform-origin: center top;
+  transition: transform 0.2s ease;
+  will-change: transform;
 }
 
 .stage {
