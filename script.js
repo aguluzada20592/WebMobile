@@ -386,3 +386,82 @@ function showFullVenue() {
 document
   .getElementById("overview-view")
   .addEventListener("click", showFullVenue);
+venueViewport.addEventListener("wheel", function (event) {
+  event.preventDefault();
+
+  const previousZoom = zoomLevel;
+
+  if (event.deltaY < 0) {
+    zoomLevel = Math.min(
+      MAX_ZOOM,
+      zoomLevel + ZOOM_STEP
+    );
+  } else if (event.deltaY > 0) {
+    zoomLevel = Math.max(
+      MIN_ZOOM,
+      zoomLevel - ZOOM_STEP
+    );
+  }
+
+  if (zoomLevel === previousZoom) return;
+
+  updateMapTransform();
+}, { passive: false });
+
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let dragOriginX = 0;
+let dragOriginY = 0;
+let didDrag = false;
+
+venueViewport.addEventListener("pointerdown", function (event) {
+  if (event.button !== 0) return;
+
+  isDragging = true;
+  didDrag = false;
+
+  dragStartX = event.clientX;
+  dragStartY = event.clientY;
+  dragOriginX = moveX;
+  dragOriginY = moveY;
+});
+
+window.addEventListener("pointermove", function (event) {
+  if (!isDragging) return;
+
+  const deltaX = event.clientX - dragStartX;
+  const deltaY = event.clientY - dragStartY;
+
+  if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+    didDrag = true;
+    venueViewport.classList.add("dragging");
+  }
+
+  if (!didDrag) return;
+
+  moveX = dragOriginX + deltaX;
+  moveY = dragOriginY + deltaY;
+
+  updateMapTransform();
+});
+
+window.addEventListener("pointerup", function () {
+  if (!isDragging) return;
+
+  isDragging = false;
+  venueViewport.classList.remove("dragging");
+});
+
+window.addEventListener("pointercancel", function () {
+  isDragging = false;
+  venueViewport.classList.remove("dragging");
+});
+
+venueViewport.addEventListener("click", function (event) {
+  if (didDrag) {
+    event.preventDefault();
+    event.stopPropagation();
+    didDrag = false;
+  }
+}, true);
