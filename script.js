@@ -305,3 +305,58 @@ function restoreCart() {
 }
 
 restoreCart();
+const venueMap = document.getElementById("venue-map");
+const venueViewport = document.querySelector(".venue-viewport");
+
+let zoomLevel = 1;
+let moveX = 0;
+let moveY = 0;
+
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 2;
+const ZOOM_STEP = 0.1;
+const MOVE_STEP = 60;
+
+function updateMapTransform() {
+  venueMap.style.transform =
+    `translate(${moveX}px, ${moveY}px) scale(${zoomLevel})`;
+}
+
+document.getElementById("zoom-in").addEventListener("click", () => {
+  zoomLevel = Math.min(MAX_ZOOM, zoomLevel + ZOOM_STEP);
+  updateMapTransform();
+});
+
+document.getElementById("zoom-out").addEventListener("click", () => {
+  zoomLevel = Math.max(MIN_ZOOM, zoomLevel - ZOOM_STEP);
+  updateMapTransform();
+});
+
+document.getElementById("move-up").addEventListener("click", () => {
+  moveY -= MOVE_STEP;
+  updateMapTransform();
+});
+
+document.getElementById("move-down").addEventListener("click", () => {
+  moveY += MOVE_STEP;
+  updateMapTransform();
+});
+
+document.getElementById("move-left").addEventListener("click", () => {
+  moveX -= MOVE_STEP;
+  updateMapTransform();
+});
+
+document.getElementById("move-right").addEventListener("click", () => {
+  moveX += MOVE_STEP;
+  updateMapTransform();
+});
+
+document.getElementById("reset-view").addEventListener("click", () => {
+  zoomLevel = 1;
+  moveX = 0;
+  moveY = 0;
+  updateMapTransform();
+});
+
+updateMapTransform();
