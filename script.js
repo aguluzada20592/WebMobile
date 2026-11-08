@@ -128,3 +128,42 @@ function renderVenue() {
 }
 
 renderVenue();
+let selectedSeat = null;
+
+const seatingContainer = document.getElementById("seating-container");
+const seatInfo = document.getElementById("seat-info");
+const addToCartButton = document.getElementById("add-to-cart");
+
+seatingContainer.addEventListener("click", function (event) {
+  const seatButton = event.target.closest(".seat");
+
+  if (!seatButton || seatButton.disabled) {
+    return;
+  }
+
+  const seatId = seatButton.dataset.seatId;
+  const seat = seats.find((item) => item.id === seatId);
+
+  if (!seat || seat.status === "unavailable") {
+    return;
+  }
+
+  const previousSelection = seatingContainer.querySelector(
+    ".seat.inspected"
+  );
+
+  if (previousSelection) {
+    previousSelection.classList.remove("inspected");
+  }
+
+  selectedSeat = seat;
+  seatButton.classList.add("inspected");
+
+  seatInfo.textContent =
+    `Section: ${seat.sectionName} | ` +
+    `Row: ${seat.row} | ` +
+    `Seat: ${seat.number} | ` +
+    `Price: $${seat.price.toFixed(2)}`;
+
+  addToCartButton.disabled = false;
+});
