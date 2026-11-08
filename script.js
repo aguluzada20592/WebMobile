@@ -143,20 +143,39 @@ seatingContainer.addEventListener("click", function (event) {
   const seatId = seatButton.dataset.seatId;
   const seat = seats.find((item) => item.id === seatId);
 
-  if (!seat || seat.status === "unavailable") {
-    return;
-  }
+  
+if (
+  !seat ||
+  seat.status === "unavailable" ||
+  seat.status === "in-cart"
+) {
+  return;
+}
+
 
   const previousSelection = seatingContainer.querySelector(
     ".seat.inspected"
   );
 
-  if (previousSelection) {
-    previousSelection.classList.remove("inspected");
-  }
+  
+if (previousSelection) {
+  previousSelection.classList.remove("inspected");
+  previousSelection.classList.add("available");
+  previousSelection.setAttribute(
+    "aria-label",
+    `${previousSelection.title}, available`
+  );
+}
 
-  selectedSeat = seat;
-  seatButton.classList.add("inspected");
+selectedSeat = seat;
+
+seatButton.classList.remove("available");
+seatButton.classList.add("inspected");
+seatButton.setAttribute(
+  "aria-label",
+  `${seatButton.title}, selected for inspection`
+);
+
 
   seatInfo.textContent =
     `Section: ${seat.sectionName} | ` +
