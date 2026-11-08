@@ -183,8 +183,21 @@ function renderCart() {
       `${seat.sectionName} - Row ${seat.row}, ` +
       `Seat ${seat.number} - $${seat.price.toFixed(2)}`;
 
-    cartItems.appendChild(item);
-    total += seat.price;
+const removeButton = document.createElement("button");
+removeButton.type = "button";
+removeButton.textContent = "Remove";
+removeButton.className = "remove-ticket";
+
+removeButton.addEventListener("click", function () {
+  removeFromCart(seat.id);
+});
+
+item.appendChild(document.createTextNode(" "));
+item.appendChild(removeButton);
+
+cartItems.appendChild(item);
+total += seat.price;
+
   });
 
   cartTotal.textContent = total.toFixed(2);
@@ -218,14 +231,77 @@ addToCartButton.addEventListener("click", function () {
       `${seatButton.title}, in cart`
     );
   }
+renderCart();
+saveCart();
 
-  renderCart();
-
-  seatInfo.textContent =
-    "Ticket added to your cart! Select another available seat.";
+seatInfo.textContent =
+  "Ticket added to your cart! Select another available seat.";
 
   selectedSeat = null;
   addToCartButton.disabled = true;
 });
 
 renderCart();
+
+const CART_STORAGE_KEY = "venue-ticket-cart";
+
+function saveCart() {
+  localStorage.setItem(
+    CART_STORAGE_KEY,
+    JSON.stringify(cart.map((seat) => seat.id))
+  );
+}
+
+function removeFromCart(seatId) {
+  const index = cart.findIndex((seat) => seat.id === seatId);
+
+  if (index === -1) return;
+
+  const seat = cart[index];
+  cart.splice(index, 1);
+  seat.status = "available";
+
+  if (selectedSeat && selectedSeat.id === seatId) {
+    selectedSeat = null;
+    seatInfo.textContent = "Click a seat to view its details.";
+    addToCartButton.disabled = true;
+  }
+
+  renderVenue();
+  renderCart();
+  saveCart();
+}
+
+function restoreCart() {
+  let storedIds = [];
+
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(CART_STORAGE_KEY) || "[]"
+    );
+
+    if (Array.isArray(saved)) {
+      storedIds = saved;
+    }
+  } catch (error) {
+    console.warn("Unable to restore saved cart:", error);
+  }
+
+  storedIds.forEach((seatId) => {
+    const seat = seats.find((item) => item.id === seatId);
+
+    if (
+      seat &&
+      seat.status === "available" &&
+      !cart.some((item) => item.id === seat.id)
+    ) {
+      seat.status = "in-cart";
+      cart.push(seat);
+    }
+  });
+
+  renderVenue();
+  renderCart();
+}
+
+restoreCart();
