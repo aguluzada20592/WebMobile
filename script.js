@@ -40,7 +40,6 @@ venueSections.forEach((section) => {
       const seatId =
         `${section.id}-${row}-${number}`;
 
-      // Some seats are already unavailable.
       const unavailable =
         (row + number) % 11 === 0;
 
@@ -167,3 +166,66 @@ seatingContainer.addEventListener("click", function (event) {
 
   addToCartButton.disabled = false;
 });
+const cart = [];
+
+function renderCart() {
+  const cartItems = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
+
+  cartItems.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach((seat) => {
+    const item = document.createElement("li");
+
+    item.textContent =
+      `${seat.sectionName} - Row ${seat.row}, ` +
+      `Seat ${seat.number} - $${seat.price.toFixed(2)}`;
+
+    cartItems.appendChild(item);
+    total += seat.price;
+  });
+
+  cartTotal.textContent = total.toFixed(2);
+}
+
+addToCartButton.addEventListener("click", function () {
+  if (!selectedSeat) {
+    return;
+  }
+
+  if (
+    selectedSeat.status === "unavailable" ||
+    selectedSeat.status === "in-cart" ||
+    cart.some((item) => item.id === selectedSeat.id)
+  ) {
+    return;
+  }
+
+  cart.push(selectedSeat);
+  selectedSeat.status = "in-cart";
+
+  const seatButton = Array.from(
+    seatingContainer.querySelectorAll(".seat")
+  ).find((button) => button.dataset.seatId === selectedSeat.id);
+
+  if (seatButton) {
+    seatButton.classList.remove("available", "inspected");
+    seatButton.classList.add("in-cart");
+    seatButton.setAttribute(
+      "aria-label",
+      `${seatButton.title}, in cart`
+    );
+  }
+
+  renderCart();
+
+  seatInfo.textContent =
+    "Ticket added to your cart! Select another available seat.";
+
+  selectedSeat = null;
+  addToCartButton.disabled = true;
+});
+
+renderCart();
